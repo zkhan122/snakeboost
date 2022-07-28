@@ -28,8 +28,7 @@ public class Panel extends JPanel implements ActionListener {
     Random random;
 
 
-    LOOOOOOOOOOOOOOOOOOOL
-    LOOOOOOOOOOOOOOOL
+    zayaan khan
             
 
     // enemy
