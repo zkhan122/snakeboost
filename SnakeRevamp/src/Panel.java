@@ -26,10 +26,7 @@ public class Panel extends JPanel implements ActionListener {
     Timer timer;
     final int DELAY = 75;
     Random random;
-
-
     
-            
 
     // enemy
     final int[] enemyX = new int[GAME_UNITS];
