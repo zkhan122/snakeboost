@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
 
-public class Panel extends JPanel implements ActionListener {
+public class Panel extends JPanel implements ActionListener, ChangeListener {
 
-    static final int SCREEN_WIDTH = 600;
-    static final int SCREEN_HEIGHT = 600;
+    final int SCREEN_WIDTH = 600;
+    final int SCREEN_HEIGHT = 600;
     Dimension dimension = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
-    static final int UNIT_SIZE = 25;
-    static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
+    final int UNIT_SIZE = 25;
+    final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
     final int[] x = new int[GAME_UNITS];
     final int[] y = new int[GAME_UNITS];
     int bodyParts = 6;
@@ -26,7 +28,7 @@ public class Panel extends JPanel implements ActionListener {
     Timer timer;
     final int DELAY = 75;
     Random random;
-    
+
 
     // enemy
     final int[] enemyX = new int[GAME_UNITS];
@@ -41,6 +43,9 @@ public class Panel extends JPanel implements ActionListener {
     JButton retryButton;
     JButton exitButton;
     int timeAlive = 0;
+    JLabel sliderLabel;
+    JSlider slider;
+    JButton confirmButton;
 
 
     // sprite boxes
@@ -62,6 +67,36 @@ public class Panel extends JPanel implements ActionListener {
         exitButton.setVisible(true);
         exitButton.setEnabled(true);
 
+        // slider
+        slider = new JSlider(0, 10, 1);
+        slider.setPreferredSize(new Dimension(400, 200));
+        slider.setPaintTicks(true);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTrack(true);
+        slider.setMajorTickSpacing(1);
+        slider.setPaintLabels(true);
+        slider.setFont(new Font("Monaco", Font.PLAIN, 15));
+        // slider.setOrientation(SwingConstants.VERTICAL); // sets slider vertically
+        slider.addChangeListener(this);
+
+        // lobels and buttons on slider
+        sliderLabel = new JLabel();
+        sliderLabel.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        sliderLabel.setForeground(Color.BLACK);
+        sliderLabel.setBackground(Color.WHITE);
+        sliderLabel.setOpaque(true);
+        sliderLabel.setHorizontalAlignment(JLabel.CENTER);
+        sliderLabel.setVerticalAlignment((JLabel.CENTER));
+
+
+        confirmButton = new JButton("Confirm");
+        confirmButton.setFont(new Font("Monaco", Font.PLAIN, 20));
+        confirmButton.setBounds((SCREEN_WIDTH / 2 ) + 50, (SCREEN_HEIGHT / 2) + 200, 200, 50);
+        confirmButton.setFocusable(false);
+        confirmButton.setVisible(true);
+        confirmButton.setEnabled(true);
+
+
         random = new Random();
         this.setPreferredSize(dimension);
         this.setBackground(Color.BLACK);
@@ -75,36 +110,54 @@ public class Panel extends JPanel implements ActionListener {
 
         this.setVisible(true);
     }
-    public void menu(Graphics g) {
-        if (!running) {
-            g.setFont(new Font("Monaco", Font.BOLD, 26));
-            g.setColor(Color.WHITE);
-            g.drawString("Snake REVAMP", 125, 75);
-            g.setColor(Color.CYAN);
-            g.fillRect(startButton.x, startButton.y, startButton.width, startButton.height);
-            g.setFont(new Font("Monaco", Font.BOLD, 12));
-            g.setColor(Color.GRAY);
-            g.drawString("Start Game", startButton.x+20, startButton.y+17);
-            g.setColor(Color.CYAN);
-            g.setColor(Color.PINK);
-            g.fillRect(quitButton.x, quitButton.y, quitButton.x+20, quitButton.y+17);
-            g.setColor(Color.GRAY);
-            g.drawString("Quit Game", quitButton.x+20, quitButton.y+17);
-        }
+//    public void menu(Graphics g) {
+//        if (!running) {
+//            g.setFont(new Font("Monaco", Font.BOLD, 26));
+//            g.setColor(Color.WHITE);
+//            g.drawString("Snake REVAMP", 125, 75);
+//            g.setColor(Color.CYAN);
+//            g.fillRect(startButton.x, startButton.y, startButton.width, startButton.height);
+//            g.setFont(new Font("Monaco", Font.BOLD, 12));
+//            g.setColor(Color.GRAY);
+//            g.drawString("Start Game", startButton.x+20, startButton.y+17);
+//            g.setColor(Color.CYAN);
+//            g.setColor(Color.PINK);
+//            g.fillRect(quitButton.x, quitButton.y, quitButton.x+20, quitButton.y+17);
+//            g.setColor(Color.GRAY);
+//            g.drawString("Quit Game", quitButton.x+20, quitButton.y+17);
+//        }
+//    }
+
+
+    public boolean sliderAction() {
+        this.add(sliderLabel);
+        this.add(slider);
+
+        confirmButton.addActionListener(this);
+
+
+        // continue
+        if confirmButton.
+
     }
 
+
     public void startGame() {
+        this.add(slider);
         newApple();
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
     }
+
     public void draw(Graphics g) {
-        menu(g);
+        // menu(g);
+
         if (running) {
             for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
                 g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
@@ -282,6 +335,8 @@ public class Panel extends JPanel implements ActionListener {
             restart();
         } else if (e.getSource() == exitButton) {
             System.exit(0);
+        } else if (e.getSource() == confirmButton) {
+            startGame();
         }
     }
 
@@ -295,6 +350,11 @@ public class Panel extends JPanel implements ActionListener {
         game.grabFocus();         // trigger refocus on new panel*/
         exitButton.setVisible(false);
         repaint();
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        sliderLabel.setText("Generate " + slider.getValue() + " apples");
     }
 
     public class MyKeyAdapter extends KeyAdapter {
