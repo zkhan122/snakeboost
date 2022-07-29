@@ -130,7 +130,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 //            g.setColor(Color.CYAN);
 //            g.setColor(Color.PINK);o
 
-
+fgfdgdfgfdfgfd
     public boolean sliderAction() {
         this.add(sliderLabel);
         this.add(slider);
