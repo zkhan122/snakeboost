@@ -89,10 +89,17 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         sliderLabel.setVerticalAlignment((JLabel.CENTER));
 
 
-        confirmButton = new JButton("Confirm");
+        confirmButton = new JButton();
         confirmButton.setFont(new Font("Monaco", Font.PLAIN, 20));
-        confirmButton.setBounds((SCREEN_WIDTH / 2 ) + 50, (SCREEN_HEIGHT / 2) + 200, 200, 50);
+        confirmButton.setBounds(100, 200, 100, 100);
+        confirmButton.setText("Generate");
         confirmButton.setFocusable(false);
+        confirmButton.setHorizontalAlignment(JLabel.CENTER);
+        confirmButton.setVerticalAlignment(JLabel.CENTER);
+        confirmButton.setForeground(Color.BLACK);
+        confirmButton.setBackground(Color.LIGHT_GRAY);
+        confirmButton.setBorder(BorderFactory.createEtchedBorder());
+
         confirmButton.setVisible(true);
         confirmButton.setEnabled(true);
 
@@ -121,12 +128,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 //            g.setColor(Color.GRAY);
 //            g.drawString("Start Game", startButton.x+20, startButton.y+17);
 //            g.setColor(Color.CYAN);
-//            g.setColor(Color.PINK);
-//            g.fillRect(quitButton.x, quitButton.y, quitButton.x+20, quitButton.y+17);
-//            g.setColor(Color.GRAY);
-//            g.drawString("Quit Game", quitButton.x+20, quitButton.y+17);
-//        }
-//    }
+//            g.setColor(Color.PINK);o
 
 
     public boolean sliderAction() {
@@ -137,13 +139,13 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
 
         // continue
-        if confirmButton.
-
+        return true;
     }
 
 
     public void startGame() {
-        this.add(slider);
+        this.add(slider, BorderLayout.CENTER);
+        this.add(confirmButton, BorderLayout.CENTER);
         newApple();
         running = true;
         timer = new Timer(DELAY, this);
