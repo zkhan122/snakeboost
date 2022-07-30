@@ -57,6 +57,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Rectangle startButton = new Rectangle(150, 100, 100, 25);
     Rectangle quitButton = new Rectangle(150, 150, 100, 25);
 
+    // pane
+    JLayeredPane layeredPane = new JLayeredPane();
+
     Panel() {
         super();
 
@@ -68,7 +71,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         exitButton.setEnabled(true);
 
         // slider
-        slider = new JSlider(0, 10, 1);
+        slider = new JSlider(JSlider.CENTER, 0, 10, 1);
         slider.setPreferredSize(new Dimension(400, 200));
         slider.setPaintTicks(true);
         slider.setMinorTickSpacing(1);
@@ -81,12 +84,13 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         // lobels and buttons on slider
         sliderLabel = new JLabel();
-        sliderLabel.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        sliderLabel.setPreferredSize(new Dimension(450, 50));
         sliderLabel.setForeground(Color.BLACK);
         sliderLabel.setBackground(Color.WHITE);
         sliderLabel.setOpaque(true);
         sliderLabel.setHorizontalAlignment(JLabel.CENTER);
         sliderLabel.setVerticalAlignment((JLabel.CENTER));
+        sliderLabel.setVisible(true);
 
 
         confirmButton = new JButton();
@@ -131,25 +135,23 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 //            g.setColor(Color.PINK);o
 
 
-    public boolean sliderAction() {
-        this.add(sliderLabel);
-        this.add(slider);
-
-        confirmButton.addActionListener(this);
-
-
-        // continue
-        return true;
-    }
 
 
     public void startGame() {
-        this.add(slider, BorderLayout.CENTER);
-        this.add(confirmButton, BorderLayout.CENTER);
-        newApple();
+        this.add(slider);
+        this.add(confirmButton);
+        this.add(sliderLabel);
+        sliderLabel.setFont(new Font("Monaco", Font.PLAIN, 25));
+        sliderLabel.setText("Generate " + slider.getValue() + " apples");
+
         running = true;
+//        for (int i = 0; i <= n; i++) {
+//            newApple();
+//        }
+        newApple();
         timer = new Timer(DELAY, this);
         timer.start();
+
     }
 
     public void paintComponent(Graphics g) {
@@ -338,6 +340,12 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         } else if (e.getSource() == exitButton) {
             System.exit(0);
         } else if (e.getSource() == confirmButton) {
+            for (int i = 0; i <= slider.getValue(); i++) {
+                newApple();
+                slider.setVisible(false);
+                sliderLabel.setVisible(false);
+                confirmButton.setVisible(false);
+            }
             startGame();
         }
     }
@@ -357,6 +365,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
+
     }
 
     public class MyKeyAdapter extends KeyAdapter {
