@@ -7,6 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        System.out.println("test");
+
         Panel panel = new Panel();
         JFrame game = new JFrame();
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
