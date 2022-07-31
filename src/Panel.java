@@ -118,7 +118,17 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         this.addKeyListener(new MyKeyAdapter());
         this.addKeyListener(new KeyClicked());
 
-        startGame();
+        this.add(slider);
+        confirmButton.addActionListener(this);
+        this.add(confirmButton);
+        this.add(sliderLabel);
+        sliderLabel.setFont(new Font("Monaco", Font.PLAIN, 25));
+        sliderLabel.setText("Generate " + slider.getValue() + " apples");
+
+        if (confirmButton.getModel().isArmed()) {
+            startGame();
+
+        }
 
         this.setVisible(true);
     }
@@ -139,17 +149,13 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
 
     public void startGame() {
-        this.add(slider);
-        this.add(confirmButton);
-        this.add(sliderLabel);
-        sliderLabel.setFont(new Font("Monaco", Font.PLAIN, 25));
-        sliderLabel.setText("Generate " + slider.getValue() + " apples");
-
         running = true;
-//        for (int i = 0; i <= n; i++) {
-//            newApple();
-//        }
-        newApple();
+        slider.setVisible(false);
+        sliderLabel.setVisible(false);
+        confirmButton.setVisible(false);
+        for (int i = 0; i <= slider.getValue(); i++) {
+            newApple();
+        }
         timer = new Timer(DELAY, this);
         timer.start();
 
@@ -341,13 +347,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         } else if (e.getSource() == exitButton) {
             System.exit(0);
         } else if (e.getSource() == confirmButton) {
-            for (int i = 0; i <= slider.getValue(); i++) {
-                newApple();
-                slider.setVisible(false);
-                sliderLabel.setVisible(false);
-                confirmButton.setVisible(false);
+            if (confirmButton.getModel().isArmed()) {
+                startGame();
+            } else {
+                running = false;
             }
-            startGame();
         }
     }
 
@@ -392,9 +396,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                         direction = 'D';
                     }
                     break;
-/*                case KeyEvent.VK_SPACE: //  try to separate out into another keyAdapter class
-                    restart();
-                    repaint();*/
             }
         }
     }
