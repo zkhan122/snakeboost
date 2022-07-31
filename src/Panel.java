@@ -31,8 +31,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
 
 
-    llllllllllllllllllllll
-
+flkdjlsfjlksdjfldjslfj
     // enemy
     final int[] enemyX = new int[GAME_UNITS];
     final int[] enemyY = new int[GAME_UNITS];
