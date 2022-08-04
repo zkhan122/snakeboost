@@ -29,8 +29,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     final int DELAY = 75;
     Random random;
 
-
-
     // enemy
     final int[] enemyX = new int[GAME_UNITS];
     final int[] enemyY = new int[GAME_UNITS];
@@ -58,8 +56,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Rectangle startButton = new Rectangle(150, 100, 100, 25);
     Rectangle quitButton = new Rectangle(150, 150, 100, 25);
 
-    // pane
-    JLayeredPane layeredPane = new JLayeredPane();
+    // poison apples
+    int poisonAppleX;
+    int poisonAppleY;
 
     Panel() {
         super();
@@ -127,35 +126,18 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         if (confirmButton.getModel().isArmed()) {
             startGame();
-
         }
 
         this.setVisible(true);
     }
-//    public void menu(Graphics g) {
-//        if (!running) {
-//            g.setFont(new Font("Monaco", Font.BOLD, 26));
-//            g.setColor(Color.WHITE);
-//            g.drawString("Snake REVAMP", 125, 75);
-//            g.setColor(Color.CYAN);
-//            g.fillRect(startButton.x, startButton.y, startButton.width, startButton.height);
-//            g.setFont(new Font("Monaco", Font.BOLD, 12));
-//            g.setColor(Color.GRAY);
-//            g.drawString("Start Game", startButton.x+20, startButton.y+17);
-//            g.setColor(Color.CYAN);
-//            g.setColor(Color.PINK);o
-
-
-
 
     public void startGame() {
         running = true;
         slider.setVisible(false);
         sliderLabel.setVisible(false);
         confirmButton.setVisible(false);
-        for (int i = 0; i <= slider.getValue(); i++) {
-            newApple();
-        }
+
+
         timer = new Timer(DELAY, this);
         timer.start();
 
@@ -167,7 +149,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     }
 
     public void draw(Graphics g) {
-        // menu(g);
 
         if (running) {
             for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
@@ -179,6 +160,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             }
             g.setColor(Color.RED);
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+
+            g.setColor(new Color(187, 29, 219));
+            g.fillOval(poisonAppleX, poisonAppleY, UNIT_SIZE, UNIT_SIZE);
 
             // drawing snake
             for (int i = 0; i <= bodyParts; i++) {
@@ -216,9 +200,14 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
     }
     public void newApple() {
-        appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        int appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        int appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
     }
+    public void poisonApples() {
+        poisonAppleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        poisonAppleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+    }
+
     public void move() {
         for (int i = bodyParts; i > 0; i--) {
             x[i] = x[i-1];
@@ -261,6 +250,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             bodyParts++;
             newApple();
         }
+        if ((x[0] == poisonAppleX) && (y[0] == poisonAppleY)) {
+            running = false;
+        }
     }
 
     public void checkCollisions() {
@@ -284,17 +276,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         if (y[0] > SCREEN_HEIGHT) { // if touches bottom border
             running = false;
         }
-
-/*        if ((x[0] == enemyX[0]) && (y[0] == enemyY[0])) {
-            running = false;
-        }*/
-/*        for (int i = 0; i <= bodyParts; i++) {
-            for (int j = 0; j <= enemyBody; j++) {
-                if (x[i] == enemyX[j] && y[i] == enemyY[j]) {
-                    running = false;
-                }
-            }
-        }*/
 
         if (playerBox.intersects(enemyBox)) {
             System.out.println("BOXES INTERSECTS");
@@ -349,6 +330,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         } else if (e.getSource() == confirmButton) {
             if (confirmButton.getModel().isArmed()) {
                 startGame();
+
             } else {
                 running = false;
             }
@@ -370,6 +352,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
+
+
 
     }
 
