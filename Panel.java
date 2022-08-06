@@ -57,8 +57,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Rectangle quitButton = new Rectangle(150, 150, 100, 25);
 
     // poison apples
-    int poisonAppleX;
-    int poisonAppleY;
+    int pXPos;
+    int pYPos;
+
+    ArrayList<Integer> poisonAppleX;
+    ArrayList<Integer> poisonAppleY;
 
     Panel() {
         super();
@@ -162,11 +165,23 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
             g.setColor(new Color(187, 29, 219));
-            g.fillOval(poisonAppleX, poisonAppleY, UNIT_SIZE, UNIT_SIZE);
+            g.fillOval(pXPos, pYPos, UNIT_SIZE, UNIT_SIZE);
 
-            for (int i = 0; i <= slider.getValue(); i++) {
-                poisonApples();
+            for (int x = 0; x <= slider.getValue(); x++) {
+                pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+                poisonAppleX.add(pXPos);
             }
+            for (int y = 0; y <= slider.getValue(); y++) {
+                pYPos = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+                poisonAppleY.add(pYPos);
+            }
+
+            for (int xI = 0; xI <= slider.getValue(); xI++) {
+                for (int yI = 0; yI <= slider.getValue(); yI++) {
+                    g.fillOval(poisonAppleX.get(xI), poisonAppleY.get(yI), UNIT_SIZE, UNIT_SIZE);
+                }
+            }
+
 
             // drawing snake
             for (int i = 0; i <= bodyParts; i++) {
@@ -206,11 +221,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
-    }
-    public void poisonApples() {
-        poisonAppleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        poisonAppleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
-    }
+    }/*    public void poisonApples() {
+        pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        pYPos = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+    }*/
+
 
     public void move() {
         for (int i = bodyParts; i > 0; i--) {
@@ -254,7 +269,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             bodyParts++;
             newApple();
         }
-        if ((x[0] == poisonAppleX) && (y[0] == poisonAppleY)) {
+        if ((x[0] == pXPos) && (y[0] == pYPos)) {
             running = false;
         }
     }
@@ -281,7 +296,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             running = false;
         }
 
-        if (playerBox.intersects(enemyBox)) {
+        if (playerBox != null && playerBox.intersects(enemyBox)) {
             System.out.println("BOXES INTERSECTS");
             running = false;
         }
