@@ -164,6 +164,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             g.setColor(new Color(187, 29, 219));
             g.fillOval(poisonAppleX, poisonAppleY, UNIT_SIZE, UNIT_SIZE);
 
+            for (int i = 0; i <= slider.getValue(); i++) {
+                poisonApples();
+            }
+
             // drawing snake
             for (int i = 0; i <= bodyParts; i++) {
                 if (i == 0) {
@@ -200,8 +204,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
     }
     public void newApple() {
-        int appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        int appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
     }
     public void poisonApples() {
         poisonAppleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
