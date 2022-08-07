@@ -60,8 +60,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     int pXPos;
     int pYPos;
 
-    ArrayList<Integer> poisonAppleX;
-    ArrayList<Integer> poisonAppleY;
+    ArrayList<Integer> poisonAppleX = new ArrayList<Integer>();
+    ArrayList<Integer> poisonAppleY = new ArrayList<Integer>();
 
     Panel() {
         super();
@@ -171,16 +171,24 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
                 poisonAppleX.add(pXPos);
             }
+
+            // test
+            System.out.println();
+            System.out.println("test");
+            System.out.println(poisonAppleX);
+
+
             for (int y = 0; y <= slider.getValue(); y++) {
                 pYPos = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
                 poisonAppleY.add(pYPos);
             }
+            System.out.println(poisonAppleY);
 
-            for (int xI = 0; xI <= slider.getValue(); xI++) {
+/*            for (int xI = 0; xI <= slider.getValue(); xI++) {
                 for (int yI = 0; yI <= slider.getValue(); yI++) {
                     g.fillOval(poisonAppleX.get(xI), poisonAppleY.get(yI), UNIT_SIZE, UNIT_SIZE);
                 }
-            }
+            }*/
 
 
             // drawing snake
@@ -221,7 +229,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
-    }/*    public void poisonApples() {
+    }
+    /*    public void poisonApples() {
         pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         pYPos = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
     }*/
