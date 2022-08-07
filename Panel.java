@@ -60,6 +60,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     int pXPos;
     int pYPos;
 
+    // hold x, y coordinates for pA in buffer
     ArrayList<Integer> poisonAppleX = new ArrayList<Integer>();
     ArrayList<Integer> poisonAppleY = new ArrayList<Integer>();
 
