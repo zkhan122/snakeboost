@@ -140,6 +140,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         slider.setVisible(false);
         sliderLabel.setVisible(false);
         confirmButton.setVisible(false);
+        exitButton.setVisible(false);
         newApple();
 
         timer = new Timer(DELAY, this);
@@ -156,7 +157,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         if (running) {
             for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
                 g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
-
+                                                                           // 24 x 24 grid
                 for (int j = 0; j < SCREEN_HEIGHT / UNIT_SIZE; j++) {
                     g.drawLine(j * UNIT_SIZE, 0, j * UNIT_SIZE, SCREEN_HEIGHT);
                 }
@@ -195,7 +196,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 tempX = poisonAppleX.get(coord);
                 tempY = poisonAppleY.get(coord);
 
-
+                // checking poison apple collisions
                 if (x[0] == tempX && y[0] == tempY) {
                     running = false;
                     System.out.println("PURPLE RAIN");
@@ -209,7 +210,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 System.out.println("PURPLE RAIN");
             }*/
 
-            checkPoisonApple();
+        //    checkPoisonApple();
 
 
 
