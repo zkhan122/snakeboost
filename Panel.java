@@ -64,6 +64,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     ArrayList<Integer> poisonAppleX = new ArrayList<Integer>();
     ArrayList<Integer> poisonAppleY = new ArrayList<Integer>();
 
+    // rand bounds
+    int xRB = 0;
+    int yRB = 0;
+
+
     Panel() {
         super();
 
@@ -116,7 +121,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         this.setPreferredSize(dimension);
         this.setBackground(Color.BLACK);
         this.setOpaque(true);
-       // this.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT); // same size as window  -> white bg but grid displayed
+
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         this.addKeyListener(new KeyClicked());
@@ -157,9 +162,14 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         if (running) {
             for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
                 g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
-                                                                           // 24 x 24 grid
+                if (i == 9) {
+                    xRB = i;
+                }                                                 // 24 x 24 grid
                 for (int j = 0; j < SCREEN_HEIGHT / UNIT_SIZE; j++) {
                     g.drawLine(j * UNIT_SIZE, 0, j * UNIT_SIZE, SCREEN_HEIGHT);
+                    if (j == 5) {
+                        yRB = j;
+                    }
                 }
             }
             g.setColor(Color.RED);
@@ -170,6 +180,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
             for (int x = 0; x <= slider.getValue(); x++) {
                 pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+                if (x == xRB) {
+                    pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+                }
                 poisonAppleX.add(pXPos);
             }
 
@@ -181,6 +194,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
             for (int y = 0; y <= slider.getValue(); y++) {
                 pYPos = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+                if (y == yRB) {
+                    pYPos = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+                }
                 poisonAppleY.add(pYPos);
             }
 
