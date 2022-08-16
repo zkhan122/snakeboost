@@ -1,8 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
@@ -65,14 +69,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     int xRB = 0;
     int yRB = 0;
 
-    // KeyBindings
-    InputMap inputMap;
-    ActionMap actionMap;
-
-    Action upAction;
-    Action downAction;
-    Action leftAction;
-    Action rightAction;
+    // initializing wall image var
+    BufferedImage img;
 
 
     Panel() {
@@ -139,6 +137,15 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         sliderLabel.setFont(new Font("Monaco", Font.PLAIN, 25));
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
 
+        // wall image
+        img = null;
+        try {
+            img = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Picture\\wall.jpg")); // loading image
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Image not processed");
+        }
 
         this.setVisible(true);
     }
@@ -151,6 +158,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         exitButton.setVisible(false);
         newApple();
         requestFocus();
+
+        System.out.println(img);;
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -398,7 +407,20 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Interstate", Font.BOLD, 30));
-        g.drawString("Press SPACE to restart", 150 , SCREEN_HEIGHT / 2 + 100);
+        g.drawString("collect the  ", 150, SCREEN_HEIGHT / 2 + 50);
+        g.setColor(Color.RED);
+        g.drawString("RED", (SCREEN_WIDTH / 2) + 10 , SCREEN_HEIGHT / 2 + 50);
+        g.setColor(Color.WHITE);
+        g.drawString("apples!", (SCREEN_WIDTH / 2) + 80, SCREEN_HEIGHT / 2 + 50);
+
+        g.setColor(new Color(195, 20, 230));
+        g.setFont(new Font("Interstate", Font.BOLD, 30));
+        g.drawString("Don't hit the walls!", 130 , SCREEN_HEIGHT / 2 + 100);
+        g.drawString("or the PURPLE APPLES!", 130 , SCREEN_HEIGHT / 2 + 150);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Interstate", Font.BOLD, 30));
+        g.drawString("Press SPACE to restart", 130 , SCREEN_HEIGHT / 2 + 220);
 
         // button
 
@@ -484,33 +506,5 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             }
         }
     }
-/*    public class UpAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            y[0] = y[0] - UNIT_SIZE;
-        }
-    }
-    public class DownAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            y[0] = y[0] + UNIT_SIZE;
-        }
-    }
-    public class LeftAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            x[0] = x[0] - UNIT_SIZE;
-        }
-    }
-    public class RightAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            x[0] = x[0] + UNIT_SIZE;
-        }
-    }*/
 }
 
