@@ -2,10 +2,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
@@ -67,6 +64,15 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     // rand bounds
     int xRB = 0;
     int yRB = 0;
+
+    // KeyBindings
+    InputMap inputMap;
+    ActionMap actionMap;
+
+    Action upAction;
+    Action downAction;
+    Action leftAction;
+    Action rightAction;
 
 
     Panel() {
@@ -133,9 +139,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         sliderLabel.setFont(new Font("Monaco", Font.PLAIN, 25));
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
 
-        if (confirmButton.getModel().isArmed()) {
-            startGame();
-        }
 
         this.setVisible(true);
     }
@@ -147,6 +150,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         confirmButton.setVisible(false);
         exitButton.setVisible(false);
         newApple();
+        requestFocus();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -283,6 +287,25 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             case 'L': x[0] = x[0] - UNIT_SIZE; break;
             case 'R': x[0] = x[0] + UNIT_SIZE;
         }
+
+/*        // key bindings
+        inputMap = getInputMap(WHEN_FOCUSED);
+        actionMap = getActionMap();
+
+        upAction = new UpAction();
+        downAction = new DownAction();
+        leftAction = new LeftAction();
+        rightAction = new RightAction();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "UP");
+        actionMap.put("UP", new UpAction());
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "DOWN");
+        actionMap.put("DOWN", new DownAction());
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
+        actionMap.put("LEFT", new LeftAction());
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
+        actionMap.put("RIGHT", new RightAction());*/
+
         // enemy movement
         for (int j = enemyBody; j > 0; j--) {
             enemyY[j] = enemyY[j-1];
@@ -378,8 +401,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         g.drawString("Press SPACE to restart", 150 , SCREEN_HEIGHT / 2 + 100);
 
         // button
-/*        retryButton.addActionListener(this);
-        this.add(retryButton);*/
 
         exitButton.addActionListener(this);
         this.add(exitButton);
@@ -423,10 +444,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     public void stateChanged(ChangeEvent e) {
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
 
-
-
     }
 
+    // keyboard event input
     public class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -459,9 +479,38 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 restart();
+                requestFocus();
                 repaint();
             }
         }
     }
+/*    public class UpAction extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            y[0] = y[0] - UNIT_SIZE;
+        }
+    }
+    public class DownAction extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            y[0] = y[0] + UNIT_SIZE;
+        }
+    }
+    public class LeftAction extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            x[0] = x[0] - UNIT_SIZE;
+        }
+    }
+    public class RightAction extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            x[0] = x[0] + UNIT_SIZE;
+        }
+    }*/
 }
 
