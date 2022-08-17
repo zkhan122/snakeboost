@@ -285,20 +285,21 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
     }
     public void drawWalls() {
-        wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+/*        wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
 
         for (int i = 0; i <= SCREEN_HEIGHT/ UNIT_SIZE; i++) {
             walls.add(wallImgLabel);
-        }
+        } */
 /*        for (JLabel wall : walls) {
             this.add(wall);
             for (int pos = 0; pos <= SCREEN_HEIGHT; pos++) {
                 wall.setLocation(0, pos++);
             }
         }*/
-        for (int a = 0; a <= walls.size(); a++) {
-            this.add(walls.get(a));
-            walls.get(a).setLocation(0, a); // NEED TO FIX ->: DISPLAY WALLS GOING DOWN VERTICALLY FIRST
+        for (int i = 0; i < SCREEN_HEIGHT/UNIT_SIZE; i++) {
+            wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+            this.add((wallImgLabel).setLocation(0, i));
+
         }
 
 /*        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
