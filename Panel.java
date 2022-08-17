@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.List;
 
 public class Panel extends JPanel implements ActionListener, ChangeListener {
 
@@ -70,7 +69,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     int yRB = 0;
 
     // initializing wall image var
-    BufferedImage img;
+    BufferedImage wallImgBuff;
+    JLabel wallImgLabel;
+
+    ArrayList<JLabel> walls = new ArrayList<JLabel>();
 
 
     Panel() {
@@ -138,9 +140,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
 
         // wall image
-        img = null;
+        wallImgBuff = null;
         try {
-            img = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Picture\\wall.jpg")); // loading image
+            wallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Pictures\\wall.jpg")); // loading image
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -159,7 +161,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         newApple();
         requestFocus();
 
-        System.out.println(img);;
+
+        drawWalls();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -185,6 +188,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                     }
                 }
             }
+
+
             g.setColor(Color.RED);
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
@@ -276,8 +281,31 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
         else {
             gameOver(g);
+            System.out.println(wallImgBuff);
         }
     }
+    public void drawWalls() {
+        wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+
+        for (int i = 0; i <= SCREEN_HEIGHT/ UNIT_SIZE; i++) {
+            walls.add(wallImgLabel);
+        }
+/*        for (JLabel wall : walls) {
+            this.add(wall);
+            for (int pos = 0; pos <= SCREEN_HEIGHT; pos++) {
+                wall.setLocation(0, pos++);
+            }
+        }*/
+        for (int a = 0; a <= walls.size(); a++) {
+            this.add(walls.get(a));
+            walls.get(a).setLocation(0, a); // NEED TO FIX ->: DISPLAY WALLS GOING DOWN VERTICALLY FIRST
+        }
+
+/*        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
+            g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
+        }*/
+    }
+
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
