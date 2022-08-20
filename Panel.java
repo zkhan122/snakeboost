@@ -70,9 +70,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     // initializing wall image var
     BufferedImage wallImgBuff;
-    JLabel wallImgLabel;
-
+    JLabel wallImgLabel_horizontal;
+    JLabel wallImgLabel_vertical;
     ArrayList<JLabel> walls = new ArrayList<JLabel>();
+    ImageIcon wallIcon;
 
 
     Panel() {
@@ -160,9 +161,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         exitButton.setVisible(false);
         newApple();
         requestFocus();
-
-
-        drawWalls();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -283,8 +281,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             gameOver(g);
             System.out.println(wallImgBuff);
         }
+        drawWalls(g);
+
     }
-    public void drawWalls() {
+    public void drawWalls(Graphics g) {
 /*        wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
 
         for (int i = 0; i <= SCREEN_HEIGHT/ UNIT_SIZE; i++) {
@@ -296,11 +296,23 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 wall.setLocation(0, pos++);
             }
         }*/
-        for (int i = 0; i < SCREEN_HEIGHT/UNIT_SIZE; i++) {
-            wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-            this.add((wallImgLabel).setLocation(0, i));
+
+
+        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
+            // horizontal walls
+            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+            wallImgLabel_horizontal.setLocation(0, i);
 
         }
+        // vertical walls
+        for (int j = 0; j < SCREEN_HEIGHT / UNIT_SIZE; j++) {
+            wallImgLabel_vertical = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+            wallImgLabel_vertical.setLocation(0, j);
+        }
+
+
+        this.add(wallImgLabel_horizontal);
+        this.add(wallImgLabel_vertical);
 
 /*        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
             g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
