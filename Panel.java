@@ -150,6 +150,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             System.out.println("Image not processed");
         }
 
+
         this.setVisible(true);
     }
 
@@ -161,6 +162,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         exitButton.setVisible(false);
         newApple();
         requestFocus();
+
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -281,22 +283,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             gameOver(g);
             System.out.println(wallImgBuff);
         }
-        drawWalls(g);
 
+        drawWalls(g);
     }
     public void drawWalls(Graphics g) {
-/*        wallImgLabel = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-
-        for (int i = 0; i <= SCREEN_HEIGHT/ UNIT_SIZE; i++) {
-            walls.add(wallImgLabel);
-        } */
-/*        for (JLabel wall : walls) {
-            this.add(wall);
-            for (int pos = 0; pos <= SCREEN_HEIGHT; pos++) {
-                wall.setLocation(0, pos++);
-            }
-        }*/
-
 
         for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
             // horizontal walls
@@ -304,19 +294,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             wallImgLabel_horizontal.setLocation(0, i);
 
         }
-        // vertical walls
-        for (int j = 0; j < SCREEN_HEIGHT / UNIT_SIZE; j++) {
-            wallImgLabel_vertical = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-            wallImgLabel_vertical.setLocation(0, j);
-        }
-
 
         this.add(wallImgLabel_horizontal);
-        this.add(wallImgLabel_vertical);
-
-/*        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
-            g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
-        }*/
     }
 
     public void newApple() {
