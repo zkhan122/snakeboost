@@ -163,6 +163,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         newApple();
         requestFocus();
 
+        drawWalls();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -238,16 +239,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             }
 
 
-            // checking for poison apple collisions
-/*            if (x[0] == tempX && y[0] == tempY) {
-                running = false;
-                System.out.println("PURPLE RAIN");
-            }*/
-
-        //    checkPoisonApple();
-
-
-
             // drawing snake
             for (int i = 0; i <= bodyParts; i++) {
                 if (i == 0) {
@@ -283,26 +274,29 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             gameOver(g);
             System.out.println(wallImgBuff);
         }
-
-        drawWalls(g);
     }
-    public void drawWalls(Graphics g) {
+    public void drawWalls() {
 
         for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
             // horizontal walls
             wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
             wallImgLabel_horizontal.setLocation(0, i);
-
+            this.add(wallImgLabel_horizontal);
         }
 
-        this.add(wallImgLabel_horizontal);
+        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
+            // horizontal walls
+            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+            wallImgLabel_horizontal.setLocation(SCREEN_WIDTH, i);
+            this.add(wallImgLabel_horizontal);yhukij
+        }
+
     }
 
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
     }
-
 
     public void move() {
         for (int i = bodyParts; i > 0; i--) {
