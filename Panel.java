@@ -284,11 +284,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             this.add(wallImgLabel_horizontal);
         }
 
-        for (int i2 = 0; i2 < SCREEN_WIDTH / UNIT_SIZE; i2++) {
-            // horizontal walls
-            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-            wallImgLabel_horizontal.setLocation(SCREEN_WIDTH / 2 , i2);
-            this.add(wallImgLabel_horizontal);
+        for (int j = 0; j < SCREEN_HEIGHT; j++) {
+            wallImgLabel_vertical = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+            wallImgLabel_vertical.setLocation(0, j);
+            this.add(wallImgLabel_vertical);
         }
     }
 
