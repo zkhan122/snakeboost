@@ -4,9 +4,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -74,6 +76,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     JLabel wallImgLabel_vertical;
     ArrayList<JLabel> walls = new ArrayList<JLabel>();
     ImageIcon wallIcon;
+    Image wallImage;
+
 
 
     Panel() {
@@ -172,6 +176,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
+
     }
 
     public void draw(Graphics g) {
@@ -272,9 +277,43 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
         else {
             gameOver(g);
-            System.out.println(wallImgBuff);
         }
+
     }
+
+    public BufferedImage loadImage(String filename) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File(filename));
+        }
+        catch(IOException e) {
+
+        }
+        return image;
+    }
+
+    public void rotateImage(Graphics g, BufferedImage image, JLabel imageLabel, int degrees) {
+/*
+        int w = image.getWidth();
+        int h = image.getHeight();
+
+        BufferedImage newImage = new BufferedImage(w, h, image.getType());
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.rotate(Math.toRadians(degrees), Math.round(w/2), Math.round(h/2));
+        g2d.drawImage(image, null, 0, 0);
+        imageLabel.setIcon(new ImageIcon(newImage));
+*/
+
+        image = loadImage("C:\\Users\\zayaa\\OneDrive\\Pictures\\wall.jpg");
+
+        AffineTransform affineTransform = AffineTransform.getTranslateInstance(100, 100);
+        affineTransform.rotate(Math.toRadians(degrees), image.getWidth() / 2, image.getHeight() / 2);
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(image, affineTransform, null);
+    }
+
+
     public void drawWalls() {
 
         for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
@@ -282,12 +321,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
             wallImgLabel_horizontal.setLocation(0, i);
             this.add(wallImgLabel_horizontal);
-        }
-
-        for (int j = 0; j < SCREEN_HEIGHT; j++) {
-            wallImgLabel_vertical = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-            wallImgLabel_vertical.setLocation(0, j);
-            this.add(wallImgLabel_vertical);
         }
     }
 
