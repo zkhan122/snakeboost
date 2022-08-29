@@ -8,7 +8,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -72,11 +71,13 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     // initializing wall image var
     BufferedImage wallImgBuff;
+    BufferedImage vWallImgBuff;
     JLabel wallImgLabel_horizontal;
     JLabel wallImgLabel_vertical;
     ArrayList<JLabel> walls = new ArrayList<JLabel>();
     ImageIcon wallIcon;
     Image wallImage;
+    Image vWallImage;
 
 
 
@@ -147,13 +148,21 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         // wall image
         wallImgBuff = null;
         try {
-            wallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Pictures\\wall.jpg")); // loading image
+            wallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Documents\\Zayaan\\Java\\SnakeRevamp\\SnakeRevamp\\src\\assets\\wallHorizontal.jpg")); // loading image
         }
         catch (IOException e) {
             e.printStackTrace();
             System.out.println("Image not processed");
         }
 
+        vWallImgBuff = null;
+        try {
+            vWallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Documents\\Zayaan\\Java\\SnakeRevamp\\SnakeRevamp\\src\\assets\\wallVertical.jpg"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Image not processed");
+        }
 
         this.setVisible(true);
     }
@@ -171,6 +180,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         timer = new Timer(DELAY, this);
         timer.start();
+
+        this.setLayout(null);
     }
 
     public void paintComponent(Graphics g) {
@@ -304,26 +315,28 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         imageLabel.setIcon(new ImageIcon(newImage));
 */
 
-        image = loadImage("C:\\Users\\zayaa\\OneDrive\\Pictures\\wall.jpg");
-
-        AffineTransform affineTransform = AffineTransform.getTranslateInstance(100, 100);
-        affineTransform.rotate(Math.toRadians(degrees), image.getWidth() / 2, image.getHeight() / 2);
-
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(image, affineTransform, null);
     }
 
 
     public void drawWalls() {
 
-        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
-            // horizontal walls
-            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-            wallImgLabel_horizontal.setLocation(0, i);
-            this.add(wallImgLabel_horizontal);
-        }
-    }
+//        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
+//            // horizontal walls
+//            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
+//            wallImgLabel_horizontal.setLocation(0, i);q2w
+//            this.add(wallImgLabel_horizontal);
+//        }
+        wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 150, wallImgBuff.getHeight(), Image.SCALE_FAST)));
+        wallImgLabel_horizontal.setBounds(0, 0 , wallImgBuff.getWidth() - 100, wallImgBuff.getHeight());
+        this.add(wallImgLabel_horizontal);
 
+
+        // vertical walls
+        wallImgLabel_vertical = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth(), vWallImgBuff.getHeight(), Image.SCALE_FAST)));
+        wallImgLabel_vertical.setBounds(1, 0, vWallImgBuff.getWidth(), vWallImgBuff.getHeight());
+        this.add(wallImgLabel_vertical);
+
+    }
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
@@ -439,6 +452,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     }
     public void gameOver(Graphics g) {
+/*        if (!running) {
+            Menu gameMenu = new Menu(600, 600);
+        }*/
         // game over text
         g.setColor(Color.RED);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
