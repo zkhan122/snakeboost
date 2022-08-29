@@ -316,18 +316,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         g2d.drawImage(image, null, 0, 0);
         imageLabel.setIcon(new ImageIcon(newImage));
 */
-
     }
 
 
     public void drawWalls() {
 
-//        for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
-//            // horizontal walls
-//            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(20, 20, Image.SCALE_FAST)));
-//            wallImgLabel_horizontal.setLocation(0, i);q2w
-//            this.add(wallImgLabel_horizontal);
-//        }
         wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 150, wallImgBuff.getHeight(), Image.SCALE_FAST)));
         wallImgLabel_horizontal.setBounds(0, 0 , wallImgBuff.getWidth() - 100, wallImgBuff.getHeight());
         this.add(wallImgLabel_horizontal);
