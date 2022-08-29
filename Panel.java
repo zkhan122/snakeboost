@@ -74,6 +74,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     BufferedImage vWallImgBuff;
     JLabel wallImgLabel_horizontal;
     JLabel wallImgLabel_vertical;
+    JLabel wallImgLabel_horizontal2;
+    JLabel wallImgLabel_vertical2;
     ArrayList<JLabel> walls = new ArrayList<JLabel>();
     ImageIcon wallIcon;
     Image wallImage;
@@ -330,11 +332,18 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         wallImgLabel_horizontal.setBounds(0, 0 , wallImgBuff.getWidth() - 100, wallImgBuff.getHeight());
         this.add(wallImgLabel_horizontal);
 
+        wallImgLabel_horizontal2 = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 150, wallImgBuff.getHeight(), Image.SCALE_FAST)));
+        wallImgLabel_horizontal2.setBounds(0, SCREEN_HEIGHT - 5, wallImgBuff.getWidth() - 100, wallImgBuff.getHeight());
+        this.add(wallImgLabel_horizontal2);
 
         // vertical walls
         wallImgLabel_vertical = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth(), vWallImgBuff.getHeight(), Image.SCALE_FAST)));
         wallImgLabel_vertical.setBounds(1, 0, vWallImgBuff.getWidth(), vWallImgBuff.getHeight());
         this.add(wallImgLabel_vertical);
+
+        wallImgLabel_vertical2 = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth(), vWallImgBuff.getHeight(), Image.SCALE_FAST)));
+        wallImgLabel_vertical2.setBounds(SCREEN_WIDTH - 25, 0, vWallImgBuff.getWidth(), vWallImgBuff.getHeight());
+        this.add(wallImgLabel_vertical2);
 
     }
     public void newApple() {
