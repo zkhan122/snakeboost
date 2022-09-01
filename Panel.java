@@ -213,7 +213,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
             g.setColor(new Color(187, 29, 219));
-/*            g.fillOval(pXPos, pYPos, UNIT_SIZE, UNIT_SIZE);*/
+            /*            g.fillOval(pXPos, pYPos, UNIT_SIZE, UNIT_SIZE);*/
 
             for (int x = 0; x <= slider.getValue(); x++) {
                 pXPos = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
@@ -278,12 +278,12 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                     g.fillOval(SCREEN_WIDTH / 2 , enemyY[i], UNIT_SIZE, UNIT_SIZE);
 
 
-/*                    g.translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
+                    /*                    g.translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
                 } else {
                     g.setColor(new Color(47, 152, 47));
-               //     g.fillOval(enemyX[i], enemyY[i], UNIT_SIZE, UNIT_SIZE);
+                    //     g.fillOval(enemyX[i], enemyY[i], UNIT_SIZE, UNIT_SIZE);
                     g.fillOval(SCREEN_WIDTH / 2 , enemyY[i], UNIT_SIZE, UNIT_SIZE);
-/*                    g.translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
+                    /*                    g.translate(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
                 }
                 enemyBox = new Rectangle(SCREEN_WIDTH / 2, enemyY[i], UNIT_SIZE, UNIT_SIZE);
             }
@@ -321,21 +321,21 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     public void drawWalls() {
 
-        wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 150, wallImgBuff.getHeight(), Image.SCALE_FAST)));
-        wallImgLabel_horizontal.setBounds(0, 0 , wallImgBuff.getWidth() - 100, wallImgBuff.getHeight());
+        wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 140, wallImgBuff.getHeight()  - 30, Image.SCALE_FAST)));
+        wallImgLabel_horizontal.setBounds(0, 0 , wallImgBuff.getWidth() - 140, wallImgBuff.getHeight()  - 30);
         this.add(wallImgLabel_horizontal);
 
-        wallImgLabel_horizontal2 = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 150, wallImgBuff.getHeight(), Image.SCALE_FAST)));
-        wallImgLabel_horizontal2.setBounds(0, SCREEN_HEIGHT - 5, wallImgBuff.getWidth() - 100, wallImgBuff.getHeight());
+        wallImgLabel_horizontal2 = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() + 30, Image.SCALE_FAST)));
+        wallImgLabel_horizontal2.setBounds(0, SCREEN_HEIGHT - 5, wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() + 30);
         this.add(wallImgLabel_horizontal2);
 
         // vertical walls
-        wallImgLabel_vertical = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth(), vWallImgBuff.getHeight(), Image.SCALE_FAST)));
-        wallImgLabel_vertical.setBounds(1, 0, vWallImgBuff.getWidth(), vWallImgBuff.getHeight());
+        wallImgLabel_vertical = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() - 20 , vWallImgBuff.getHeight(), Image.SCALE_FAST))); // bug at - 30 (at 0)
+        wallImgLabel_vertical.setBounds(1, 0, vWallImgBuff.getWidth() - 20 , vWallImgBuff.getHeight());
         this.add(wallImgLabel_vertical);
 
-        wallImgLabel_vertical2 = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth(), vWallImgBuff.getHeight(), Image.SCALE_FAST)));
-        wallImgLabel_vertical2.setBounds(SCREEN_WIDTH - 25, 0, vWallImgBuff.getWidth(), vWallImgBuff.getHeight());
+        wallImgLabel_vertical2 = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight(), Image.SCALE_FAST)));
+        wallImgLabel_vertical2.setBounds(SCREEN_WIDTH - 25, 0, vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight());
         this.add(wallImgLabel_vertical2);
 
     }
@@ -388,13 +388,13 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         // enemy direction
         switch (enemyDirection) {
             case 'U': enemyY[0] = enemyY[0] - UNIT_SIZE;
-            if (enemyY[0] == 0)
-                enemyDirection = 'D';
-            break;
+                if (enemyY[0] == 0)
+                    enemyDirection = 'D';
+                break;
             case 'D': enemyY[0] = enemyY[0] + UNIT_SIZE;
-            if (enemyY[0] == SCREEN_HEIGHT)
-                enemyDirection = 'U';
-            break;
+                if (enemyY[0] == SCREEN_HEIGHT)
+                    enemyDirection = 'U';
+                break;
             case 'L': enemyX[0] = enemyX[0] - UNIT_SIZE; break;
             case 'R': enemyX[0] = enemyX[0] + UNIT_SIZE;
         }
