@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JFrame implements ActionListener {
 
-    int menuWidth, menuHeight;
+    int menuWidth;
+    int menuHeight;
 
     JButton play = new JButton("play");
     JButton settings = new JButton("settings");
@@ -69,8 +70,9 @@ public class Menu extends JFrame implements ActionListener {
             System.exit(0);
         } else if (source == play) {
             layout.show(panel, "Game");
-        } else if (source == settings){
 
+        } else if (source == settings){
+            layout.show(panel, "Settings");
         } else if (source == mainMenu){
             layout.show(panel, "Menu");
         }

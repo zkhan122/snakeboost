@@ -53,10 +53,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Rectangle playerBox;
     Rectangle enemyBox;
 
-    // menu
-    Rectangle startButton = new Rectangle(150, 100, 100, 25);
-    Rectangle quitButton = new Rectangle(150, 150, 100, 25);
-
     // poison apples
     int pXPos;
     int pYPos;
@@ -454,9 +450,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     }
     public void gameOver(Graphics g) {
-/*        if (!running) {
-            Menu gameMenu = new Menu(600, 600);
-        }*/
+        if (!running) {
+            Menu gameMenu = new Menu(650, 650);
+        }
         // game over text
         g.setColor(Color.RED);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
