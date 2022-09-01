@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JFrame implements ActionListener {
 
+    private Panel panelBuffer;
+
     int menuWidth;
     int menuHeight;
 
@@ -23,6 +25,7 @@ public class Menu extends JFrame implements ActionListener {
         this.menuWidth = menuWidth;
         this.menuHeight = menuHeight;
 
+
         panel.setLayout(layout);
         addButtons();
 
@@ -36,10 +39,6 @@ public class Menu extends JFrame implements ActionListener {
     }
     private void addButtons() {
 
-        play.addActionListener(this);
-        settings.addActionListener(this);
-        exit.addActionListener(this);
-        mainMenu.addActionListener(this);
 
         //menu buttons
         menu.add(play);
@@ -48,6 +47,20 @@ public class Menu extends JFrame implements ActionListener {
 
         //game buttons
         game.add(mainMenu);
+
+        play.addActionListener(this);
+        this.add(play);
+        settings.addActionListener(this);
+        this.add(settings);
+        exit.addActionListener(this);
+        this.add(exit);
+        mainMenu.addActionListener(this);
+        this.add(mainMenu);
+
+        play.setFocusable(false);
+        settings.setFocusable(false);
+        exit.setFocusable(false);
+        mainMenu.setFocusable(false);
 
         //background colors
         game.setBackground(Color.MAGENTA);
@@ -60,21 +73,26 @@ public class Menu extends JFrame implements ActionListener {
         add(panel);
         layout.show(panel,"Menu");
 
+
     }
 
-    public void actionPerformed1(ActionEvent event) {
+    public void actionPerformed1(ActionEvent e) {
 
-        Object source = event.getSource();
 
-        if (source == exit) {
+        if (e.getSource() == exit) {
             System.exit(0);
-        } else if (source == play) {
+        } else if (e.getSource() == play) {
             layout.show(panel, "Game");
+            panelBuffer.startGame();
+            this.setVisible(false);
 
-        } else if (source == settings){
+        } else if (e.getSource() == settings){
             layout.show(panel, "Settings");
-        } else if (source == mainMenu){
+        } else if (e.getSource() == mainMenu){
             layout.show(panel, "Menu");
+        }
+        else {
+            System.out.println("kerboodle");
         }
     }
 
