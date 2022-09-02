@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Panel extends JPanel implements ActionListener, ChangeListener {
 
-    final int SCREEN_WIDTH = 600;
+    static final int SCREEN_WIDTH = 600;
     final int SCREEN_HEIGHT = 600;
     Dimension dimension = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
     final int UNIT_SIZE = 25;
@@ -77,6 +77,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Image wallImage;
     Image vWallImage;
 
+
+    boolean isGameOver = false;
 
 
     Panel() {
@@ -165,6 +167,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         this.setVisible(true);
     }
 
+    public void menu(Graphics g ) {
+        Menu gameMenu = new Menu();
+        gameMenu.render(g);
+    }
+
     public void startGame() {
         running = true;
         slider.setVisible(false);
@@ -189,6 +196,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     }
 
     public void draw(Graphics g) {
+
 
         if (running) {
             for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
@@ -286,6 +294,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
         else {
             gameOver(g);
+
         }
 
     }
@@ -450,9 +459,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     }
     public void gameOver(Graphics g) {
-        if (!running) {
-            Menu gameMenu = new Menu(650, 650);
+        if (isGameOver == false) {
+            menu(g);
         }
+        isGameOver = true;
         // game over text
         g.setColor(Color.RED);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
