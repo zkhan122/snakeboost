@@ -5,9 +5,11 @@ import java.awt.event.ActionListener;
 
 public class Menu {
 
-    public Rectangle playButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 120, 150, 100, 50);
-    public Rectangle helpButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 240, 150, 100, 50);
-    public Rectangle quitButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 360, 150, 100, 50);
+    Panel panelObj = new Panel();
+
+    public Rectangle playButton = new Rectangle(panelObj.SCREEN_WIDTH / 2 + 120, 150, 100, 50);
+    public Rectangle helpButton = new Rectangle(panelObj.SCREEN_WIDTH / 2 + 240, 150, 100, 50);
+    public Rectangle quitButton = new Rectangle(panelObj.SCREEN_WIDTH / 2 + 360, 150, 100, 50);
 
 
     public void render(Graphics g) {
@@ -16,7 +18,7 @@ public class Menu {
         Font font0 = new Font("Monaco", Font.BOLD, 50);
         g.setFont(font0);
         g.setColor(Color.WHITE);
-        g.drawString("Snake Boost!", Panel.SCREEN_WIDTH / 2, 100);
+        g.drawString("Snake Boost!", panelObj.SCREEN_WIDTH / 2, 100);
 
         Font font1 = new Font("Merryweather", Font.BOLD, 30);
         g2d.setFont(font1);
