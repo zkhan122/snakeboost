@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Panel extends JPanel implements ActionListener, ChangeListener {
 
-    static final int SCREEN_WIDTH = 600;
+    final int SCREEN_WIDTH = 600;
     final int SCREEN_HEIGHT = 600;
     Dimension dimension = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
     final int UNIT_SIZE = 25;
@@ -53,6 +53,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Rectangle playerBox;
     Rectangle enemyBox;
 
+    // menu
+    Rectangle startButton = new Rectangle(150, 100, 100, 25);
+    Rectangle quitButton = new Rectangle(150, 150, 100, 25);
+
     // poison apples
     int pXPos;
     int pYPos;
@@ -78,11 +82,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Image vWallImage;
 
 
-    boolean isGameOver = false;
-
 
     Panel() {
         super();
+
 
         exitButton = new JButton("Exit");
         exitButton.setFont(new Font("Monaco", Font.PLAIN, 20));
@@ -137,6 +140,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         this.addKeyListener(new KeyClicked());
+        requestFocus();
 
         this.add(slider);
         confirmButton.addActionListener(this);
@@ -164,12 +168,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             System.out.println("Image not processed");
         }
 
-        this.setVisible(true);
-    }
 
-    public void menu(Graphics g ) {
-        Menu gameMenu = new Menu();
-        gameMenu.render(g);
+        this.setVisible(true);
     }
 
     public void startGame() {
@@ -179,7 +179,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         confirmButton.setVisible(false);
         exitButton.setVisible(false);
         newApple();
-        requestFocus();
+        setFocusable(true);
 
         drawWalls();
 
@@ -196,7 +196,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     }
 
     public void draw(Graphics g) {
-
 
         if (running) {
             for (int i = 0; i < SCREEN_WIDTH / UNIT_SIZE; i++) {
@@ -295,6 +294,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         else {
             gameOver(g);
         }
+
     }
 
     public BufferedImage loadImage(String filename) {
@@ -359,24 +359,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             case 'L': x[0] = x[0] - UNIT_SIZE; break;
             case 'R': x[0] = x[0] + UNIT_SIZE;
         }
-
-/*        // key bindings
-        inputMap = getInputMap(WHEN_FOCUSED);
-        actionMap = getActionMap();
-
-        upAction = new UpAction();
-        downAction = new DownAction();
-        leftAction = new LeftAction();
-        rightAction = new RightAction();
-
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "UP");
-        actionMap.put("UP", new UpAction());
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "DOWN");
-        actionMap.put("DOWN", new DownAction());
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
-        actionMap.put("LEFT", new LeftAction());
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
-        actionMap.put("RIGHT", new RightAction());*/
 
         // enemy movement
         for (int j = enemyBody; j > 0; j--) {
@@ -484,12 +466,12 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Interstate", Font.BOLD, 30));
         g.drawString("Press SPACE to restart", 130 , SCREEN_HEIGHT / 2 + 220);
+
         // button
 
         exitButton.addActionListener(this);
         this.add(exitButton);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (running) {
