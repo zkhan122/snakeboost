@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 public class Menu {
 
     public Rectangle playButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 120, 150, 100, 50);
-    public Rectangle helpButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 120, 150, 100, 50);
-    public Rectangle quitButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 120, 150, 100, 50);
+    public Rectangle helpButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 240, 150, 100, 50);
+    public Rectangle quitButton = new Rectangle(Panel.SCREEN_WIDTH / 2 + 360, 150, 100, 50);
 
 
     public void render(Graphics g) {
@@ -20,11 +20,11 @@ public class Menu {
 
         Font font1 = new Font("Merryweather", Font.BOLD, 30);
         g2d.setFont(font1);
-        g2d.drawString("Play", playButton.x+19, playButton.y + 19);
+        g2d.drawString("Play", playButton.x, playButton.y);
         g2d.draw(playButton);
-        g2d.drawString("Help",  helpButton.x+19, helpButton.y + 19);
+        g2d.drawString("Help",  helpButton.x, helpButton.y);
         g2d.draw(helpButton);
-        g2d.drawString("Quit", quitButton.x+19, quitButton.y + 19);
+        g2d.drawString("Quit", quitButton.x, quitButton.y);
         g2d.draw(quitButton);
 
     }

@@ -294,9 +294,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         }
         else {
             gameOver(g);
-
         }
-
     }
 
     public BufferedImage loadImage(String filename) {
@@ -459,10 +457,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
     }
     public void gameOver(Graphics g) {
-        if (isGameOver == false) {
-            menu(g);
-        }
-        isGameOver = true;
         // game over text
         g.setColor(Color.RED);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
@@ -490,12 +484,12 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Interstate", Font.BOLD, 30));
         g.drawString("Press SPACE to restart", 130 , SCREEN_HEIGHT / 2 + 220);
-
         // button
 
         exitButton.addActionListener(this);
         this.add(exitButton);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (running) {
