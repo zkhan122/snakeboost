@@ -85,8 +85,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     boolean isOver = false;
 
 
+
     Panel() {
         super();
+
 
         exitButton = new JButton("Exit");
         exitButton.setFont(new Font("Monaco", Font.PLAIN, 20));
@@ -141,6 +143,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         this.addKeyListener(new KeyClicked());
+        requestFocus();
 
         this.add(slider);
         confirmButton.addActionListener(this);
@@ -178,7 +181,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         confirmButton.setVisible(false);
         exitButton.setVisible(false);
         newApple();
-        requestFocus();
+        setFocusable(true);
 
         drawWalls();
 
@@ -476,6 +479,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         }
 
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Interstate", Font.BOLD, 30));
+        g.drawString("Press SPACE to restart", 130 , SCREEN_HEIGHT / 2 + 220);
+
         // button
 
     /*        retryButton = new JButton();
@@ -487,7 +494,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         exitButton.addActionListener(this);
         this.add(exitButton);
-
 
     }
     @Override
