@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -73,22 +74,19 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     BufferedImage wallImgBuff;
     BufferedImage vWallImgBuff;
     JLabel wallImgLabel_horizontal;
-    JLabel wallImgLabel_vertical;
     JLabel wallImgLabel_horizontal2;
+    JLabel wallImgLabel_vertical;
     JLabel wallImgLabel_vertical2;
     ArrayList<JLabel> walls = new ArrayList<JLabel>();
     ImageIcon wallIcon;
     Image wallImage;
-    Image vWallImage;
+    Image vWallImage; // vertical wall image
 
-
-    boolean isOver = false;
 
 
 
     Panel() {
         super();
-
 
         exitButton = new JButton("Exit");
         exitButton.setFont(new Font("Monaco", Font.PLAIN, 20));
@@ -143,7 +141,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         this.addKeyListener(new KeyClicked());
-        requestFocus();
 
         this.add(slider);
         confirmButton.addActionListener(this);
@@ -169,7 +166,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         catch (IOException e) {
             e.printStackTrace();
             System.out.println("Image not processed");
+
         }
+
 
         this.setVisible(true);
     }
@@ -178,17 +177,16 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         running = true;
         slider.setVisible(false);
         sliderLabel.setVisible(false);
+
         confirmButton.setVisible(false);
         exitButton.setVisible(false);
         newApple();
-        setFocusable(true);
+        //    drawWalls();
 
-        drawWalls();
+        grabFocus();
 
         timer = new Timer(DELAY, this);
         timer.start();
-
-        this.setLayout(null);
     }
 
     public void paintComponent(Graphics g) {
@@ -305,23 +303,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             image = ImageIO.read(new File(filename));
         }
         catch(IOException e) {
-            e.printStackTrace();
+
         }
         return image;
     }
 
-    public void rotateImage(Graphics g, BufferedImage image, JLabel imageLabel, int degrees) {
-/*
-        int w = image.getWidth();
-        int h = image.getHeight();
-
-        BufferedImage newImage = new BufferedImage(w, h, image.getType());
-        Graphics2D g2d = newImage.createGraphics();
-        g2d.rotate(Math.toRadians(degrees), Math.round(w/2), Math.round(h/2));
-        g2d.drawImage(image, null, 0, 0);
-        imageLabel.setIcon(new ImageIcon(newImage));
-*/
-    }
 
 
     public void drawWalls() {
@@ -342,8 +328,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         wallImgLabel_vertical2 = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight(), Image.SCALE_FAST)));
         wallImgLabel_vertical2.setBounds(SCREEN_WIDTH - 25, 0, vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight());
         this.add(wallImgLabel_vertical2);
-
     }
+
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
@@ -361,6 +347,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             case 'L': x[0] = x[0] - UNIT_SIZE; break;
             case 'R': x[0] = x[0] + UNIT_SIZE;
         }
+
 
         // enemy movement
         for (int j = enemyBody; j > 0; j--) {
@@ -398,7 +385,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             if (x[0] == pXPos && y[0] == pYPos) {
                 System.out.println("PURPLE RAIN");
                 running = false;
-                isOver = true;
             }
             break;
         }
@@ -409,7 +395,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         for (int i = bodyParts; i > 0; i--) {
             if ((x[0] == x[i]) && (y[0] == y[i])) {
                 running = false;
-                isOver = true;
                 break;
             }
         }
@@ -430,14 +415,12 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         if (playerBox != null && playerBox.intersects(enemyBox)) {
             System.out.println("BOXES INTERSECTS");
             running = false;
-            isOver = true;
         }
         for (int i = 0; i <= bodyParts; i++) {
             for (int j = 0; j <= enemyBody; j++) {
                 if (x[i] == enemyY[j] && y[i] == enemyY[j]) {
                     System.out.println("COLLIDES");
                     running = false;
-                    isOver = true;
                 }
             }
             break;
@@ -447,37 +430,29 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     public void gameOver(Graphics g) {
 
 
-        if (isOver) {
+        // game over text
+        g.setColor(Color.RED);
+        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        FontMetrics fontMetrics0 = getFontMetrics(g.getFont());
+        g.drawString("Game Over!", (SCREEN_WIDTH - fontMetrics0.stringWidth("Game Over")) / 2 , 200); // center text
 
-            // game over text
-            g.setColor(Color.RED);
-            g.setFont(new Font("Ink Free", Font.BOLD, 75));
-            FontMetrics fontMetrics0 = getFontMetrics(g.getFont());
-            g.drawString("Game Over!", (SCREEN_WIDTH - fontMetrics0.stringWidth("Game Over")) / 2, 200); // center text
+        g.setColor(Color.RED);
+        g.setFont(new Font("Ink Free", Font.BOLD, 30));
+        FontMetrics fontMetrics1 = getFontMetrics(g.getFont()); // getFont() uses font specified
+        g.drawString("Apples Eaten: " + applesEaten, + (SCREEN_WIDTH - fontMetrics1.stringWidth("Apples Eaten: " + applesEaten)) / 2, 300);
 
-            g.setColor(Color.RED);
-            g.setFont(new Font("Ink Free", Font.BOLD, 30));
-            FontMetrics fontMetrics1 = getFontMetrics(g.getFont()); // getFont() uses font specified
-            g.drawString("Apples Eaten: " + applesEaten, +(SCREEN_WIDTH - fontMetrics1.stringWidth("Apples Eaten: " + applesEaten)) / 2, 300);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Interstate", Font.BOLD, 30));
+        g.drawString("collect the  ", 150, SCREEN_HEIGHT / 2 + 50);
+        g.setColor(Color.RED);
+        g.drawString("RED", (SCREEN_WIDTH / 2) + 10 , SCREEN_HEIGHT / 2 + 50);
+        g.setColor(Color.WHITE);
+        g.drawString("apples!", (SCREEN_WIDTH / 2) + 80, SCREEN_HEIGHT / 2 + 50);
 
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Interstate", Font.BOLD, 30));
-            g.drawString("collect the  ", 150, SCREEN_HEIGHT / 2 + 50);
-            g.setColor(Color.RED);
-            g.drawString("RED", (SCREEN_WIDTH / 2) + 10, SCREEN_HEIGHT / 2 + 50);
-            g.setColor(Color.WHITE);
-            g.drawString("apples!", (SCREEN_WIDTH / 2) + 80, SCREEN_HEIGHT / 2 + 50);
-
-            g.setColor(new Color(195, 20, 230));
-            g.setFont(new Font("Interstate", Font.BOLD, 30));
-            g.drawString("Don't hit the walls!", 130, SCREEN_HEIGHT / 2 + 100);
-            g.drawString("or the PURPLE APPLES!", 130, SCREEN_HEIGHT / 2 + 150);
-
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Interstate", Font.BOLD, 30));
-            g.drawString("Press SPACE to restart", 130, SCREEN_HEIGHT / 2 + 220);
-
-        }
+        g.setColor(new Color(195, 20, 230));
+        g.setFont(new Font("Interstate", Font.BOLD, 30));
+        g.drawString("Don't hit the walls!", 130 , SCREEN_HEIGHT / 2 + 100);
+        g.drawString("or the PURPLE APPLES!", 130 , SCREEN_HEIGHT / 2 + 150);
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Interstate", Font.BOLD, 30));
@@ -485,16 +460,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
         // button
 
-    /*        retryButton = new JButton();
-            retryButton.setText("Retry");
-            retryButton.setSize(100, 50);
-            retryButton.setLocation(0, 200);
-            retryButton.addActionListener(this);
-            this.add(retryButton);*/
-
         exitButton.addActionListener(this);
         this.add(exitButton);
-
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -504,7 +471,10 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
             checkCollisions();
         }
         repaint();
-        if (e.getSource() == exitButton) {
+        if (e.getSource() == retryButton) {
+            //   System.out.println("you clicked try again...");
+            restart();
+        } else if (e.getSource() == exitButton) {
             System.exit(0);
         } else if (e.getSource() == confirmButton) {
             if (confirmButton.getModel().isArmed()) {
@@ -514,30 +484,24 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 running = false;
             }
         }
-/*        if (e.getSource() == exitButton) {
-            System.exit(0);
-        } else if (e.getSource() == confirmButton) {
-            if (confirmButton.getModel().isArmed()) {
-                startGame();
-            } else {
-                running = false;
-            }
-        }*/
     }
 
 
-
     public void restart() {
-        isOver = false;
-        bodyParts = 6;
-        applesEaten = 0;
+        this.remove(new JFrame());
+        this.remove(new Panel());
+        SwingUtilities.updateComponentTreeUI(this);
+        Panel game = new Panel();
+        this.add(game);
+        game.grabFocus();         // trigger refocus on new panel*/
+        exitButton.setVisible(false);
         repaint();
-
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
+
     }
 
     // keyboard event input
@@ -572,9 +536,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         public void keyPressed(KeyEvent e) {
 
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                System.out.println("SPACE CLICKED");
                 restart();
-
+                requestFocus();
+                repaint();
             }
         }
     }
