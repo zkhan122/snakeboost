@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// has not yet been added into panel container
+
 public class Menu {
 
     Panel panelObj = new Panel();
