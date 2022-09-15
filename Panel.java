@@ -82,6 +82,8 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
     Image wallImage;
     Image vWallImage; // vertical wall image
 
+    static boolean showMenu = false;
+
 
 
 
@@ -92,8 +94,9 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         exitButton.setFont(new Font("Monaco", Font.PLAIN, 20));
         exitButton.setBounds((SCREEN_WIDTH / 2 ) + 50, (SCREEN_HEIGHT / 2) + 200, 200, 50);
         exitButton.setFocusable(false);
-        exitButton.setVisible(true);
+/*        exitButton.setVisible(true);*/
         exitButton.setEnabled(true);
+        this.add(exitButton);
 
         // slider
         slider = new JSlider(JSlider.CENTER, 0, 10, 1);
@@ -149,28 +152,13 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         sliderLabel.setFont(new Font("Monaco", Font.PLAIN, 25));
         sliderLabel.setText("Generate " + slider.getValue() + " apples");
 
-        // wall image
-        wallImgBuff = null;
-        try {
-            wallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Documents\\Zayaan\\Java\\SnakeRevamp\\SnakeRevamp\\src\\assets\\wallHorizontal.jpg")); // loading image
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Image not processed");
-        }
-
-        vWallImgBuff = null;
-        try {
-            vWallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Documents\\Zayaan\\Java\\SnakeRevamp\\SnakeRevamp\\src\\assets\\wallVertical.jpg"));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Image not processed");
-
-        }
-
-
         this.setVisible(true);
+    }
+
+    public void mainMenu() {
+        showMenu = true;
+        Menu menu = new Menu();
+
     }
 
     public void startGame() {
@@ -240,6 +228,7 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 poisonAppleY.add(pYPos);
             }
 
+
             System.out.println();
             System.out.println("Y Coordinate buffer");
             System.out.println(poisonAppleY);
@@ -290,9 +279,11 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
                 }
                 enemyBox = new Rectangle(SCREEN_WIDTH / 2, enemyY[i], UNIT_SIZE, UNIT_SIZE);
             }
+
         }
         else {
             gameOver(g);
+
         }
 
     }
@@ -310,29 +301,56 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
 
 
-    public void drawWalls() {
+    public void drawWalls(boolean show) {
+        // wall image
+        wallImgBuff = null;
+        try {
+            wallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Documents\\Zayaan\\Java\\SnakeRevamp\\SnakeRevamp\\src\\assets\\wallHorizontal.jpg")); // loading image
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Image not processed");
+        }
 
-        wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 140, wallImgBuff.getHeight()  - 30, Image.SCALE_FAST)));
-        wallImgLabel_horizontal.setBounds(0, 0 , wallImgBuff.getWidth() - 140, wallImgBuff.getHeight()  - 30);
-        this.add(wallImgLabel_horizontal);
+        vWallImgBuff = null;
+        try {
+            vWallImgBuff = ImageIO.read(new File("C:\\Users\\zayaa\\OneDrive\\Documents\\Zayaan\\Java\\SnakeRevamp\\SnakeRevamp\\src\\assets\\wallVertical.jpg"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Image not processed");
 
-        wallImgLabel_horizontal2 = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() + 30, Image.SCALE_FAST)));
-        wallImgLabel_horizontal2.setBounds(0, SCREEN_HEIGHT - 5, wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() + 30);
-        this.add(wallImgLabel_horizontal2);
+        }
 
-        // vertical walls
-        wallImgLabel_vertical = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() - 20 , vWallImgBuff.getHeight(), Image.SCALE_FAST))); // bug at - 30 (at 0)
-        wallImgLabel_vertical.setBounds(1, 0, vWallImgBuff.getWidth() - 20 , vWallImgBuff.getHeight());
-        this.add(wallImgLabel_vertical);
+        if (show) {
 
-        wallImgLabel_vertical2 = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight(), Image.SCALE_FAST)));
-        wallImgLabel_vertical2.setBounds(SCREEN_WIDTH - 25, 0, vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight());
-        this.add(wallImgLabel_vertical2);
+            wallImgLabel_horizontal = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() - 30, Image.SCALE_FAST)));
+            wallImgLabel_horizontal.setBounds(0, 0, wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() - 30);
+            this.add(wallImgLabel_horizontal);
+
+            wallImgLabel_horizontal2 = new JLabel(new ImageIcon(wallImgBuff.getScaledInstance(wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() + 30, Image.SCALE_FAST)));
+            wallImgLabel_horizontal2.setBounds(0, SCREEN_HEIGHT - 5, wallImgBuff.getWidth() - 140, wallImgBuff.getHeight() + 30);
+            this.add(wallImgLabel_horizontal2);
+
+            // vertical walls
+            wallImgLabel_vertical = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() - 20, vWallImgBuff.getHeight(), Image.SCALE_FAST))); // bug at - 30 (at 0)
+            wallImgLabel_vertical.setBounds(1, 0, vWallImgBuff.getWidth() - 20, vWallImgBuff.getHeight());
+            this.add(wallImgLabel_vertical);
+
+            wallImgLabel_vertical2 = new JLabel(new ImageIcon(vWallImgBuff.getScaledInstance(vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight(), Image.SCALE_FAST)));
+            wallImgLabel_vertical2.setBounds(SCREEN_WIDTH - 25, 0, vWallImgBuff.getWidth() + 250, vWallImgBuff.getHeight());
+            this.add(wallImgLabel_vertical2);
+        }
     }
 
     public void newApple() {
         appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        if (appleX == pXPos) {
+            appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        }
+        if (appleY == pYPos) {
+            appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        }
     }
 
     public void move() {
@@ -461,7 +479,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         // button
 
         exitButton.addActionListener(this);
-        this.add(exitButton);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -494,7 +511,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
         Panel game = new Panel();
         this.add(game);
         game.grabFocus();         // trigger refocus on new panel*/
-        exitButton.setVisible(false);
         repaint();
     }
 
@@ -537,7 +553,6 @@ public class Panel extends JPanel implements ActionListener, ChangeListener {
 
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 restart();
-                requestFocus();
                 repaint();
             }
         }
